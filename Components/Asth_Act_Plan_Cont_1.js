@@ -11,7 +11,7 @@ export default function Asth_Act_Plan_Cont_1({serverIP}) {
   useEffect(() => {
     const fetchAAP_when_Well_Cont = async () => {
       try {
-        const response = await axios.get(`http://${serverIP}/AAP_when_well`);
+        const response = await axios.get(`${serverIP}/AAP_when_well`);
         setAAP_when_Well_Cont(response.data.AAP_when_Well_Cont);
       } catch (error) {
         console.log(error);

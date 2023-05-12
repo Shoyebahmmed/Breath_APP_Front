@@ -12,7 +12,7 @@ export default function Health_Education_Page({route}) {
     const navigation = useNavigation();
 
     useEffect(() => {
-        fetch(`http://${serverIP}/education_cont`)
+        fetch(`${serverIP}/education_cont`)
           .then(res => res.json())
           .then(data => setData(data));
       }, []);

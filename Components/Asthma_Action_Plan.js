@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 
   pagination: {
-    marginBottom: '17%',
+    
   },
 });
 

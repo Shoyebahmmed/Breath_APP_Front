@@ -10,7 +10,7 @@ export default function Social_Cont_View({userID, post_id, post_user_ID, Timesta
     useEffect(() => {
         const fetchLikedList = async (userID) => {
           try {
-            const response = await axios.post(`http://${serverIP}/postLikedList`, { userID });
+            const response = await axios.post(`${serverIP}/postLikedList`, { userID });
             setUserLikedList(response.data);
             console.log(response.data);
           } catch (error) {

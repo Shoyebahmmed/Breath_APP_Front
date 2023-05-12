@@ -27,7 +27,7 @@ export default function Social_Page({route}) {
         const user_ID = userID;
         const postContent = socialContent;
 
-        axios.post(`http://${serverIP}/addNewPost`, { user_ID: user_ID, postContent: postContent })
+        axios.post(`${serverIP}/addNewPost`, { user_ID: user_ID, postContent: postContent })
             .then(async res => {
               console.log(res);
               fetchMySocialPosts();
@@ -52,7 +52,7 @@ export default function Social_Page({route}) {
 
       const fetchSocialPosts = async () => {
         try {
-          const response = await axios.get(`http://${serverIP}/Social_posts`);
+          const response = await axios.get(`${serverIP}/Social_posts`);
           if (response.data.length > 0) {
             setAllSocialPost(response.data);
             console.log(allSocialPost);
@@ -66,7 +66,7 @@ export default function Social_Page({route}) {
 
       const fetchMySocialPosts = async () => {
         try {
-          const response = await axios.post(`http://${serverIP}/myPostList`, {userID: userID});
+          const response = await axios.post(`${serverIP}/myPostList`, {userID: userID});
           if (response.data.length > 0) {
             setMyAllSocialPost(response.data);
             console.log(myAllSocialPost);

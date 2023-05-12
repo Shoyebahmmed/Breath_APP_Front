@@ -15,7 +15,7 @@ export default function NewAssessment({route}) {
 
     async function getAssessmentDetails() {
         try{
-            const assessmentDetails = await axios.post(`http://${serverIP}/get_Assessment_Details`, { userID });
+            const assessmentDetails = await axios.post(`${serverIP}/get_Assessment_Details`, { userID });
             setAssessmentData(assessmentDetails.data);
             console.log(assessmentData);
         }

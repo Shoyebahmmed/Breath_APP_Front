@@ -50,7 +50,7 @@ export default function Profile_Page_Edit ({route}) {
     }
 
 
-    const updateDetail = await axios.post(`http://${serverIP}/update_user_details`, {userID, userData, selectedTriggers});
+    const updateDetail = await axios.post(`${serverIP}/update_user_details`, {userID, userData, selectedTriggers});
     //() =>navigation.navigate('Profile_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })
     if( updateDetail.data === 'Done'){
       Alert.alert(

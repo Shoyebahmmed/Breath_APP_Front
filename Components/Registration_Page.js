@@ -113,7 +113,7 @@ export default function Registration_Page({route}) {
 
     if (error == 0 ) {
       console.log(userData);
-      const response = axios.post(`http://${serverIP}/Registration_User_Data`, userData)
+      const response = axios.post(`${serverIP}/Registration_User_Data`, userData)
       .then(res => {
         console.log(res.data);
         const res_userID = res.data;

@@ -32,7 +32,7 @@ export default function Social_Content_Bottom_View({likes, postID, userID, liked
             data.postID = postID;
             data.liked = !liked;
             data.user_ID = userID;
-            const response = await axios.post(`http://${serverIP}/postLike`, data);
+            const response = await axios.post(`${serverIP}/postLike`, data);
             console.log(2);
             setLiked(!liked);
             console.log(3);

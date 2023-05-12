@@ -11,7 +11,7 @@ export default function Asth_Act_Plan_Cont_3({serverIP}) {
   useEffect(() => {
     const fetchAAP_Symptoms_Get_worse_Cont = async () => {
       try {
-        const response = await axios.get(`http://${serverIP}/AAP_Symptoms_Get_Worse`);
+        const response = await axios.get(`${serverIP}/AAP_Symptoms_Get_Worse`);
         setAAP_Symptoms_Get_worse_Cont(response.data.AAP_Symptoms_Get_Worse_Cont);
       } catch (error) {
         console.log(error);
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     color: '#000874',
   },
   bottom_warn_text: {
-    marginTop: '15%'
+    marginTop: '10%'
   },
   listItem: {
     lineHeight: 24,

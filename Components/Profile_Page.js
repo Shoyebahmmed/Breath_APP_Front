@@ -18,7 +18,7 @@ export default function Profile_Page ({route}) {
   
     async function getAllDetails() {
       console.log('---------------------------------------------------------------');
-      const serverCallResult = await axios.post(`http://${serverIP}/get_User_All_Details`, { userID});
+      const serverCallResult = await axios.post(`${serverIP}/get_User_All_Details`, { userID});
 
       if( serverCallResult.data.length > 0) {
         setData(serverCallResult.data);
@@ -34,7 +34,7 @@ export default function Profile_Page ({route}) {
         }])
       }
 
-      const serverCallResult2 = await axios.post(`http://${serverIP}/get_User_All_Triggers_Details`, { userID});
+      const serverCallResult2 = await axios.post(`${serverIP}/get_User_All_Triggers_Details`, { userID});
       if( serverCallResult2.data.length > 0) {
         console.log(serverCallResult2.data);
         setAsthamaTriggers(serverCallResult2.data, ' ____________________');

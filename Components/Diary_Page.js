@@ -13,7 +13,7 @@ export default function Diary_Page({route}) {
     const [diartNote, setDiaryNote] = useState([])
 
     async function reloadDiaryNotes() {
-      const serverCallResult = await axios.post(`http://${serverIP}/get_user_Notes`, { userID});
+      const serverCallResult = await axios.post(`${serverIP}/get_user_Notes`, { userID});
 
       if( serverCallResult.data.length > 0) {
         setDiaryNote(serverCallResult.data);

@@ -19,7 +19,7 @@ export default function Inhaler({route}) {
     useEffect(() => {
         async function reloadInhalerData() {
         try {
-            const inhalerUpdateDetails = await axios.post(`http://${serverIP}/inhaler_info_display`, { userID });
+            const inhalerUpdateDetails = await axios.post(`${serverIP}/inhaler_info_display`, { userID });
             setInhalerDetails(inhalerUpdateDetails.data);
             console.log(inhalerUpdateDetails.data);
         }

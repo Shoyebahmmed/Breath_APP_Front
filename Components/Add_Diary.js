@@ -27,7 +27,7 @@ export default function Add_Diary({route}) {
     }
 
     try {
-        const addNoteRes = await axios.post(`http://${serverIP}/add_user_Notes`, { userID, title, content });
+        const addNoteRes = await axios.post(`${serverIP}/add_user_Notes`, { userID, title, content });
         console.log(addNoteRes.data);
         if(addNoteRes.data === 'Done') {       
             Alert.alert(

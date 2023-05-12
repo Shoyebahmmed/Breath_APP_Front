@@ -19,7 +19,7 @@ export default function Puffer({serverIP, userID}) {
 
     async function getInhalerDetails() {
         try{
-            const InhalerDetails = await axios.post(`http://${serverIP}/user_puff_details`, { userID });
+            const InhalerDetails = await axios.post(`${serverIP}/user_puff_details`, { userID });
             if(InhalerDetails.data.length > 0) {
                 setPuffDetails(InhalerDetails.data);
                 console.log(InhalerDetails.data);
@@ -51,7 +51,7 @@ export default function Puffer({serverIP, userID}) {
     const remove = async (item) => {
         const Inhaler_ID = item.Inhaler_ID;
         try{
-            const InhalerDetails = await axios.post(`http://${serverIP}/remove_Puff`, { userID, Inhaler_ID });
+            const InhalerDetails = await axios.post(`${serverIP}/remove_Puff`, { userID, Inhaler_ID });
             if(InhalerDetails.data.length > 0) {
                 setPuffDetails(InhalerDetails.data);
                 console.log(InhalerDetails.data);
@@ -76,7 +76,7 @@ export default function Puffer({serverIP, userID}) {
     const add = async (item) => {
         const Inhaler_ID = item.Inhaler_ID;
         try{
-            const InhalerDetails = await axios.post(`http://${serverIP}/add_Puff`, { userID, Inhaler_ID });
+            const InhalerDetails = await axios.post(`${serverIP}/add_Puff`, { userID, Inhaler_ID });
             if(InhalerDetails.data.length > 0) {
                 setPuffDetails(InhalerDetails.data);
                 console.log(InhalerDetails.data);

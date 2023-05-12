@@ -18,7 +18,7 @@ export default function SelfAssessment({route}) {
     const [Answer5, setAnswer5] = useState('');
 
     async function addAssessmentToDB(result, condition) { 
-        const serverCallResult = await axios.post(`http://${serverIP}/add_assessment`, { userID, result, condition });
+        const serverCallResult = await axios.post(`${serverIP}/add_assessment`, { userID, result, condition });
         if(serverCallResult.data === 'successful') 
             return true;
         

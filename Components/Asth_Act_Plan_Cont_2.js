@@ -11,7 +11,7 @@ export default function Asth_Act_Plan_Cont_2({serverIP}) {
   useEffect(() => {
     const fetchAAP_when_Not_Well_Cont = async () => {
       try {
-        const response = await axios.get(`http://${serverIP}/AAP_when_not_well`);
+        const response = await axios.get(`${serverIP}/AAP_when_not_well`);
         setAAP_when_Not_Well_Cont(response.data.AAP_when_not_Well_Cont);
       } catch (error) {
         console.log(error);
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     color: '#000874',
   },
   bottom_warn_text: {
-    marginTop: '15%'
+    marginTop: '5%'
   },
   listItem: {
     lineHeight: 24,

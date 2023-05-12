@@ -47,7 +47,7 @@ export default function AddInhaler({route}) {
             return;
           }
         try {
-            const addInhalerRes = await axios.post(`http://${serverIP}/add_inhaler`, { userID, Inhaler_Name, Type, Expiry_Date, Num_of_Puffs, Puffs_Per_Day });
+            const addInhalerRes = await axios.post(`${serverIP}/add_inhaler`, { userID, Inhaler_Name, Type, Expiry_Date, Num_of_Puffs, Puffs_Per_Day });
             console.log(addInhalerRes.data);
 
             Alert.alert(

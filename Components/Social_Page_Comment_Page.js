@@ -22,7 +22,7 @@ export default function Social_Page_Comment_Page({post_ID, userID, onClose, serv
         async function fetchSocialPostsComment() {
             try {
                 console.log(clikedPostID, ' ______________________-----------------------------------')
-              const response = await axios.post(`http://${serverIP}/Social_post_Comment`, {postID: clikedPostID});
+              const response = await axios.post(`${serverIP}/Social_post_Comment`, {postID: clikedPostID});
               if (response.data.length > 0) {
                 console.log(response.data);
                 setAllSocialPostComment(response.data);
@@ -83,11 +83,11 @@ export default function Social_Page_Comment_Page({post_ID, userID, onClose, serv
             const tempComment = comm_cont;
             console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@----------------------- ', tempUserID, tempPostID, tempComment);
             setUserComment({userID: tempUserID, comm_cont: comm_cont, post_ID: tempPostID});
-            axios.post(`http://${serverIP}/userComment`, { userID: tempUserID, postID: tempPostID, comment: tempComment, serverIP: serverIP })
+            axios.post(`${serverIP}/userComment`, { userID: tempUserID, postID: tempPostID, comment: tempComment, serverIP: serverIP })
             .then(async res => {
                 console.log(res);
                 try {
-                    const response = await axios.post(`http://${serverIP}/Social_post_Comment`, {postID: tempPostID});
+                    const response = await axios.post(`${serverIP}/Social_post_Comment`, {postID: tempPostID});
                     if (response.data.length > 0) {
                       setAllSocialPostComment(response.data);
                       setNoCommentState(false);

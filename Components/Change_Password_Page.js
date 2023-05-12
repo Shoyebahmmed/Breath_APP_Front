@@ -26,7 +26,7 @@ export default function Change_Password ({route}) {
                 {cancelable: false},);
             return;
         }
-        const updateDetail = await axios.post(`http://${serverIP}/update_new_password`, {userID, current, newPassword});
+        const updateDetail = await axios.post(`${serverIP}/update_new_password`, {userID, current, newPassword});
         //() =>navigation.navigate('Profile_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })
         if( updateDetail.data === 'Done'){
           Alert.alert(

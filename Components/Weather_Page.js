@@ -43,7 +43,7 @@ export default function Weather_Page({route}) {
   }, []);
 
   async function LoadData () {
-    await axios.post(`http://${serverIP}/get_weather_details_from_database`, {userID: userID})
+    await axios.post(`${serverIP}/get_weather_details_from_database`, {userID: userID})
     .then((weather_details_response) => {
      console.log(weather_details_response.data);
      setWeatherDetails({
@@ -61,7 +61,7 @@ export default function Weather_Page({route}) {
      });
     })
 
-    axios.post(`http://${serverIP}/get_weather_forecast_details_from_database`, {userID: userID})
+    axios.post(`${serverIP}/get_weather_forecast_details_from_database`, {userID: userID})
     .then((weather_forecast_details_response) => {
      console.log(weather_forecast_details_response.data, ' _______________________________');
 
@@ -98,7 +98,7 @@ export default function Weather_Page({route}) {
             setLongitude(location.coords.longitude);
 
 
-            await axios.post(`http://${serverIP}/get_API_call_count`, {userID: userID})
+            await axios.post(`${serverIP}/get_API_call_count`, {userID: userID})
             .then(async (countCall) => {
              console.log(countCall.data, ' __________________-');
         
@@ -106,17 +106,17 @@ export default function Weather_Page({route}) {
              const num_of_api_call = parseInt(countCall.data[0]?.call_count ?? 0, 10); 
         
              if (num_of_api_call < 25) {
-                await axios.post(`http://${serverIP}/weather_details_update`, {latitude: location.coords.latitude, longitude: location.coords.longitude, userID: userID})
+                await axios.post(`${serverIP}/weather_details_update`, {latitude: location.coords.latitude, longitude: location.coords.longitude, userID: userID})
                 .then((weather_details_update_response) => {
                 console.log(weather_details_update_response.data);
                 })
           
-                await axios.post(`http://${serverIP}/weather_forecast_details_update`, {latitude: location.coords.latitude, longitude: location.coords.longitude, userID: userID})
+                await axios.post(`${serverIP}/weather_forecast_details_update`, {latitude: location.coords.latitude, longitude: location.coords.longitude, userID: userID})
                 .then((weather_forecast_details_update_response) => {
                 console.log(weather_forecast_details_update_response.data);
                 })
         
-                await axios.post(`http://${serverIP}/add_API_call`, {userID: userID})
+                await axios.post(`${serverIP}/add_API_call`, {userID: userID})
                 .then((addCallRes) => {
                 console.log(addCallRes.data);
                 })
@@ -185,7 +185,7 @@ export default function Weather_Page({route}) {
       </Text>
     <View style={styles.tempBox}>
       <View style={styles.weather}>
-      <Image source={{ uri: `http://openweathermap.org/img/wn/${weatherDetails.weather_icon}@2x.png` }}  style={{ height: 130, width: 130, marginTop: -20,}} />
+      <Image source={{ uri: `openweathermap.org/img/wn/${weatherDetails.weather_icon}@2x.png` }}  style={{ height: 130, width: 130, marginTop: -20,}} />
         <Text style={styles.weather_Text}>{weatherDetails.weather_Text}</Text>
       </View>
       <Text style={styles.temp_deg}>

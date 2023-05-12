@@ -27,86 +27,73 @@ export default function Login_Page_New() {
 
 
   const handleLogin = () => {
-      axios.get(`http://${serverIP}/`)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    console.log("1");
+    if (data.password === '') {
+      setpasswordValid(false);
+    }
+    else {
+      setpasswordValid(true);
+    }
+
+    if (data.userID == undefined || data.userID == "" || data.userID.length == 0 || !userIDregex.test(data.userID)) {
+      setUserIdValid(false);
+    }
+
+    else {
+      console.log("2");
+      axios.post(`${serverIP}/data`, data)
+        .then(res => {
+          console.log("3");
+          console.log(res.data, ' -------------------------------------------');
+
+
+          setTimeout(async () => {
+          if (res.data === "matched") {
+            console.log("Done");
+            await getUserDetails();
 
 
 
+            setUserIdValid(true);
+            setpasswordValid(true);
+          //   setTimeout(async () => {
+          //   if (userName && userProImg){
+          //     console.log("***************************");
+          //     navigation.navigate('Home_Page', { userName, userProImg });
+          //   }
+          // }, 1000);
+            // navigation.navigate('Home_Page');
+          }
+          else {
+            console.log("Naaa");
+          setpasswordValid(false);
+          setUserIdValid(false);
+          }
 
-
-
-    // console.log("1");
-    // if (data.password === '') {
-    //   setpasswordValid(false);
-    // }
-    // else {
-    //   setpasswordValid(true);
-    // }
-
-    // if (data.userID == undefined || data.userID == "" || data.userID.length == 0 || !userIDregex.test(data.userID)) {
-    //   setUserIdValid(false);
-    // }
-
-    // else {
-    //   console.log("2");
-    //   axios.post(`http://${serverIP}/data`, data)
-    //     .then(res => {
-    //       console.log("3");
-    //       console.log(res.data, ' -------------------------------------------');
-
-
-    //       setTimeout(async () => {
-    //       if (res.data === "matched") {
-    //         console.log("Done");
-    //         await getUserDetails();
-
-
-
-    //         setUserIdValid(true);
-    //         setpasswordValid(true);
-    //       //   setTimeout(async () => {
-    //       //   if (userName && userProImg){
-    //       //     console.log("***************************");
-    //       //     navigation.navigate('Home_Page', { userName, userProImg });
-    //       //   }
-    //       // }, 1000);
-    //         // navigation.navigate('Home_Page');
-    //       }
-    //       else {
-    //         console.log("Naaa");
-    //       setpasswordValid(false);
-    //       setUserIdValid(false);
-    //       }
-
-    //     }, 1000);
+        }, 1000);
           
-    //     })
-    //     .catch(err => {
-    //       console.error(err, ' from front');
-    //     });
+        })
+        .catch(err => {
+          console.error(err, ' from front');
+        });
 
-    //   //   setTimeout(() => {
-    //   //   let status = checkValue();
-    //   //   if (status === "success") {
-    //   //     setUserIdValid(true);
-    //   //     setpasswordValid(true);
-    //   //   }
-    //   //   else {
-    //   //     setpasswordValid(false);
-    //   //     setUserIdValid(false);
-    //   //   }
-    //   // }, 1000);
-    // }
-    // setButtonPoss(false);
+      //   setTimeout(() => {
+      //   let status = checkValue();
+      //   if (status === "success") {
+      //     setUserIdValid(true);
+      //     setpasswordValid(true);
+      //   }
+      //   else {
+      //     setpasswordValid(false);
+      //     setUserIdValid(false);
+      //   }
+      // }, 1000);
+    }
+    setButtonPoss(false);
   };
 
   async function getUserDetails() {
-    const response = await axios.post(`http://${serverIP}/userDetailsNameImg`, data);
+    const response = await axios.post(`${serverIP}/userDetailsNameImg`, data);
     const user_ID = data.userID;
     const userDetails = { user_Name: response.data.user_Name, Prof_Img: response.data.Prof_Img };
     setUserDetails(userDetails);
