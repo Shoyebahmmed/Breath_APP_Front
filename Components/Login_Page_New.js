@@ -19,7 +19,8 @@ export default function Login_Page_New() {
   const [valueLoaded, setValueLoaded] = useState(false);
 
   const [userDetails, setUserDetails] = useState({ user_Name: '', Prof_Img: '' });
-  const serverIP = 'https://breath-app-server.glitch.me';
+  // const serverIP = 'https://breath-app-server.glitch.me';
+  const serverIP = 'http://192.168.8.104:8888';
 
 
 

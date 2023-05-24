@@ -10,7 +10,7 @@ export default function Home_Page({route}) {
 
     return (
         <View style={styles.container}>
-                <View style={{flex: 0.12,  backgroundColor: '#79A9E6',}}>
+                <View style={{flex: 0.16,  backgroundColor: '#79A9E6',}}>
         <Header user_Name = {user_Name} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP} />
         </View>
         <Puffer_Page serverIP = {serverIP} userID = {userID}/>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Image, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import Coust_Button from './coust_Button';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Social_Content_Top({user_Name, Prof_Img, userID, setInAllPost, serverIP}) {
-
+  const navigation = useNavigation();
 
     const [selectedButton, setSelectedButton] = useState('All Post');
 
@@ -23,7 +24,9 @@ export default function Social_Content_Top({user_Name, Prof_Img, userID, setInAl
         <View style={styles.container}>
             <View style={styles.content}>
             <View style={styles.profImgContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Profile_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })}>
                 <Image source={{ uri: Prof_Img }} style={styles.profImage} />
+                </TouchableOpacity>
                 </View>
 
                 <Image

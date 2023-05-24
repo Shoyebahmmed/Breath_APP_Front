@@ -185,7 +185,7 @@ export default function Weather_Page({route}) {
       </Text>
     <View style={styles.tempBox}>
       <View style={styles.weather}>
-      <Image source={{ uri: `openweathermap.org/img/wn/${weatherDetails.weather_icon}@2x.png` }}  style={{ height: 130, width: 130, marginTop: -20,}} />
+      <Image source={{ uri: `https://openweathermap.org/img/wn/${weatherDetails.weather_icon}@2x.png` }}  style={{ height: 130, width: 130}} />
         <Text style={styles.weather_Text}>{weatherDetails.weather_Text}</Text>
       </View>
       <Text style={styles.temp_deg}>
@@ -375,6 +375,7 @@ const styles = StyleSheet.create({
   },
 
   tempBox: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 25,
@@ -404,17 +405,22 @@ const styles = StyleSheet.create({
   },
 
   weather_Text: {
+    textAlign: 'center',
     alignSelf: 'center',
     color: '#000874',
     fontSize: 17,
     marginTop: -20,
+    flexWrap: 'wrap',
+    width: 130,
   },
 
   temp_deg: {
-    fontSize: 80,
+    flex: 1,
+    fontSize: 60,
     color: '#000874',
+    fontWeight: 500,
     alignSelf: 'center',
-    marginLeft: 10,
+    textAlign: 'center',
   },
 
   tempBox2: {
@@ -595,7 +601,7 @@ const styles = StyleSheet.create({
   },
 
   forecast_hum_title: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#000874',
     fontWeight: 'bold',
   },

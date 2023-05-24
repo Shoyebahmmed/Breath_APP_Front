@@ -39,6 +39,7 @@ import Self_Assesment from './Components/Self_Assesment_Page';
 import Assesment from './Components/Assesment_Page';
 import Add_Diary from './Components/Add_Diary';
 import Note_View from './Components/Note_View';
+import Cal_Page from './Components/Cal_Page';
 
 const Stack = createNativeStackNavigator();
 const bgTheme = {
@@ -58,7 +59,7 @@ export default function App() {
 
   return (
     // <View style = {styles.container}>
-    //   <Note_View />
+    //   <Cal_Page />
     // </View>
 
     <View style = {styles.container}>
@@ -111,6 +112,7 @@ export default function App() {
         <Stack.Screen name="Assesment" component={Assesment} />
         <Stack.Screen name="Add_Diary" component={Add_Diary} />
         <Stack.Screen name="Note_View" component={Note_View} />
+        <Stack.Screen name="Cal_Page" component={Cal_Page} />
     
       </Stack.Navigator>
     </NavigationContainer>

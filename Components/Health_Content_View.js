@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, ScrollView, Linking  } from 'react-native';
 import Nav_Bottom from './Nav_Bottom';
-
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Health_Content_View({ route, navigation }) {
   const { selectedItem, user_Name, Prof_Img, userID, serverIP } = route.params;
@@ -10,7 +10,7 @@ export default function Health_Content_View({ route, navigation }) {
     <View style={styles.container}>
     <View style={{ flex: 1 }}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Image source={require('./img_and_icon/drawable-mdpi/Back_Button.png')} />
+        <Ionicons name="arrow-back-circle" size={40} color="#94C9FF" />
       </TouchableOpacity>
       <View style={styles.topView}>
         <Image source={{ uri: selectedItem.image }} style={styles.image} />
@@ -47,12 +47,13 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 30,
+    top: 80,
     left: 30,
     zIndex: 1,
   },
   bottomView: {
     width: '100%',
+
     height: 550,
     backgroundColor: '#FFF',
     position: 'absolute',

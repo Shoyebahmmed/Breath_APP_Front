@@ -30,7 +30,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
             
             <TouchableOpacity onPress={ () =>navigation.navigate('Inhaler_Monitoring_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <MaterialCommunityIcons name="hospital-box-outline" size={30} color="#000874" />
+            <MaterialCommunityIcons name="hospital-box-outline" size={27} color="#000874" />
                     <Text style={styles.icon_text}>Inhaler Usage Monitoring</Text>
               </View>
             </TouchableOpacity>
@@ -38,7 +38,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Weather_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <MaterialCommunityIcons name="weather-cloudy-alert" size={30} color="#000874" />
+            <MaterialCommunityIcons name="weather-cloudy-alert" size={27} color="#000874" />
                     <Text style={styles.icon_text}>Environmental Triggers</Text>
               </View>
             </TouchableOpacity>
@@ -46,15 +46,15 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Asthma_Action_Plan', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <MaterialCommunityIcons name="head-dots-horizontal" size={32} color="#000874" />
+            <MaterialCommunityIcons name="head-dots-horizontal" size={29} color="#000874" />
                     <Text style={styles.icon_text}>Asthma Action Plan</Text>
               </View>
             </TouchableOpacity>
 
 
-            <TouchableOpacity onPress={() => pressHandler('calendar')} style={styles.logo}>
+            <TouchableOpacity onPress={() => navigation.navigate('Cal_Page' , { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <Ionicons name="calendar-sharp" size={27} color="#000874" />
+            <Ionicons name="calendar-sharp" size={25} color="#000874" />
                     <Text style={styles.icon_text}>User Calendar </Text>
               </View>
             </TouchableOpacity>
@@ -62,7 +62,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Self_Assesment', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <MaterialIcons name="assessment" size={30} color="#000874" />
+            <MaterialIcons name="assessment" size={27} color="#000874" />
                     <Text style={styles.icon_text}>Self Assessment</Text>
               </View>
             </TouchableOpacity>
@@ -70,7 +70,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Social_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <FontAwesome name="group" size={27} color="#000874" />
+            <FontAwesome name="group" size={25} color="#000874" />
                     <Text style={styles.icon_text}>Social Support</Text>
               </View>
             </TouchableOpacity>
@@ -78,7 +78,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Setting', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <Ionicons name="settings" size={27} color="#000874" />
+            <Ionicons name="settings" size={25} color="#000874" />
                     <Text style={styles.icon_text}>Settings </Text>
               </View>
             </TouchableOpacity>
@@ -86,7 +86,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() => navigation.navigate('About', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })} style={styles.logo}>
             <View style={styles.icon}>
-            <Entypo name="info-with-circle" size={27} color="#000874" />
+            <Entypo name="info-with-circle" size={25} color="#000874" />
                     <Text style={styles.icon_text}>About </Text>
               </View>
             </TouchableOpacity>
@@ -94,7 +94,7 @@ export default function Menu ({user_Name, Prof_Img, userID, serverIP}) {
 
             <TouchableOpacity onPress={() =>navigation.navigate('Login_Page_New')} style={styles.logo}>
             <View style={styles.icon}>
-            <MaterialCommunityIcons name="logout" size={30} color="#000874" />
+            <MaterialCommunityIcons name="logout" size={27} color="#000874" />
                     <Text style={styles.icon_text}>Logout</Text>
               </View>
             </TouchableOpacity>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     },
 
     icon_text: {
-      fontSize: 18,
+      fontSize: 16,
       color: '#000874',
       alignSelf: 'center',
       marginLeft: 14,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
       },
 
       logo: {
-        marginLeft: 20,
+        marginLeft: 10,
         marginTop: 20,
         alignItems: 'flex-start',
       },

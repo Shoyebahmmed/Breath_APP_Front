@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, ImageBackground, ScrollView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
@@ -15,6 +15,10 @@ import { useNavigation } from '@react-navigation/native';
 export default function Profile_Page_Edit ({route}) {
   const { user_Name, Prof_Img, userID, serverIP } = route.params;
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
+  const [other, setOther] = useState(false);
+  const [otherTrigger, setOtherTrigger] = useState('');
+  const [isLoading2, setIsLoading2] = useState(true);
   const [userData, setData] = useState({ 
     user_name: '', 
     DOB: '',
@@ -22,6 +26,77 @@ export default function Profile_Page_Edit ({route}) {
     address: '',
     medicalCondition_detail:'' 
   });
+
+  const [userOldData, setOldData] = useState([
+    {
+      User_Name: '',
+      DOB: '',
+      Email: '',
+      Address: '',
+      Medical_Condition: ''
+    }
+  ]);
+
+  function formatDateForState(date) {
+    const newDate = date.split('-');
+    return `${newDate[2]}/${newDate[1]}/${newDate[0]}`;
+  }
+
+  async function getAllDetails() {
+    console.log('---------------------------------------------------------------');
+    const serverCallResult = await axios.post(`${serverIP}/get_User_All_Details`, { userID});
+
+    if( serverCallResult.data.length > 0) {
+      setOldData(serverCallResult.data);
+      console.log(serverCallResult.data);
+    }
+    else{
+      setOldData([{  
+        User_Name: '',
+        DOB: '',
+        Email: '',
+        Address: '',
+        Medical_Condition:'' 
+      }])
+    }
+
+    setIsLoading(false);
+  }
+
+
+  function assignData() {
+    const [data] = userOldData;
+
+    const { User_Name, DOB, Email, Address, Medical_Condition } = data;
+
+    setData({
+      user_name: User_Name,
+      DOB: DOB !== '0000-00-00' ? formatDateForState(DOB) : '',
+      email: Email,
+      address: Address,
+      medicalCondition_detail: Medical_Condition
+    })
+
+    setIsLoading2(false);
+  }
+
+  useEffect(() => {
+    getAllDetails();
+  }, []);
+  
+  useEffect(() => {
+    if (!isLoading && userOldData.length > 0) {
+      assignData();
+    }
+  }, [isLoading, userOldData]);
+  
+  useEffect(() => {
+    console.log('____________-----------*************',userData);
+  }, [userData]);
+
+
+
+
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
@@ -50,9 +125,16 @@ export default function Profile_Page_Edit ({route}) {
     }
 
 
-    const updateDetail = await axios.post(`${serverIP}/update_user_details`, {userID, userData, selectedTriggers});
+    let updatedTriggers = selectedTriggers;
+    if (other && otherTrigger !== '') {
+      updatedTriggers = [...selectedTriggers, otherTrigger];
+    }
+
+    const updateDetail = await axios.post(`${serverIP}/update_user_details`, {userID, userData, updatedTriggers});
     //() =>navigation.navigate('Profile_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })
     if( updateDetail.data === 'Done'){
+      setOther(false);
+      setOtherTrigger('');
       Alert.alert(
         'Successful...',
         'Your successfully Updated your Details',
@@ -82,10 +164,23 @@ export default function Profile_Page_Edit ({route}) {
   };
 
   const handleConfirmDate = (selectedDate) => {
-    const formattedDate = selectedDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    onChangeText = setData({...userData, DOB: formattedDate});
+    if (selectedDate) {
+      const formattedDate = selectedDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      setData({ ...userData, DOB: formattedDate });
+    }
+    else {
+      setData({ ...userData }); // Preserve the existing userData.DOB value
+    }
     hideDatePicker();
   };
+
+  function handleOtherCheckBox() {
+    setOther(!other);
+  }
+
+  function setOtherValue(value) {
+    setOtherTrigger(value);
+  }
 
 
   //onPress={() =>navigation.navigate('Inhaler_Monitoring_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })}
@@ -109,7 +204,11 @@ export default function Profile_Page_Edit ({route}) {
             
 
             
+            {isLoading2 ? (
+          <Text style={{flex: 1}}>Loading...</Text>
+        ) : (
 
+          
         <View style={styles.body}>
         <ScrollView>
         <View style={styles.inputContainer}>
@@ -287,6 +386,28 @@ export default function Profile_Page_Edit ({route}) {
         }}
         onPress={() => updateSelectedTriggers('Animals')}
       />
+
+      <CheckBox
+        title='Other'
+        checked={other}
+        containerStyle={{ 
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          padding: 0
+        }}
+        onPress={() => handleOtherCheckBox()}
+      />
+
+      { other ?(
+        <TextInput
+            style={styles.textBox}
+            onChangeText={(value) => setOtherValue(value)}
+            value={otherTrigger}
+            placeholder="Other"
+          />
+      ) : null}
+
+
         
         </View>
 
@@ -296,8 +417,9 @@ export default function Profile_Page_Edit ({route}) {
             >
             <Text style={styles.updateButtonText}>Update</Text>
             </TouchableOpacity>
-</ScrollView>
+        </ScrollView>
         </View>
+        )}
         
         <Nav_Bottom iconName="EditeProfile"  user_Name = {user_Name} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
     </View>

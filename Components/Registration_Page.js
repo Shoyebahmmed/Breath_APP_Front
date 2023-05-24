@@ -1,7 +1,7 @@
 //rncs
 //onPress={() => navigation.navigate('Login_Page_New')}
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Alert  } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Alert, ScrollView  } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -134,7 +134,7 @@ export default function Registration_Page({route}) {
             'Please Store Your User ID',
             'Your user ID = ' + res_userID + '. Please store your user ID for Log in.',
             [
-              {text: 'OK', onPress:() => navigation.navigate('Login_Page_New', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })},
+              {text: 'OK', onPress:() => navigation.navigate('Login_Page_New')},
             ],
             {cancelable: false},
           );
@@ -168,7 +168,7 @@ export default function Registration_Page({route}) {
 
 
       {/* input box */}
-      <View style={styles.input}>
+      <ScrollView style={styles.input}>
         <Text
           style={styles.SignText}>
           Registration
@@ -251,7 +251,7 @@ export default function Registration_Page({route}) {
             <Text style={{ color: '#5D9AD8', marginLeft: 5 }}>Sign in</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
 
 
 
@@ -274,13 +274,15 @@ const styles = StyleSheet.create({
   SignLinkBefore: {
     marginTop: 40,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 50,
   },
 
   SignLinkAfter: {
     marginTop: 27,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 50,
   },
 
   logo: {

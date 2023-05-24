@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, ImageBackground, ScrollView } from 'react-native';
 import Nav_Bottom from './Nav_Bottom';
 import Header from './Header';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect  } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
@@ -10,7 +10,8 @@ export default function Diary_Page({route}) {
   const navigation = useNavigation();
   const { user_Name, Prof_Img, userID, serverIP } = route.params;
 
-    const [diartNote, setDiaryNote] = useState([])
+    const [diartNote, setDiaryNote] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     async function reloadDiaryNotes() {
       const serverCallResult = await axios.post(`${serverIP}/get_user_Notes`, { userID});
@@ -19,11 +20,17 @@ export default function Diary_Page({route}) {
         setDiaryNote(serverCallResult.data);
         console.log(serverCallResult.data);
       }
+
+      setIsLoading(false);
     }
 
     useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        setIsLoading(true);
       reloadDiaryNotes();
-    }, [])
+      });
+      return unsubscribe;
+    }, [navigation])
 
 
     function displayList (item, key) {
@@ -54,9 +61,12 @@ export default function Diary_Page({route}) {
     return (
         <View style={styles.container}>
         <Header user_Name = {user_Name} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
+        {isLoading ? (
+        <Text style={{flex: 1}}>Loading...</Text>
+      ) : (
         <View style={{flex: 1}}>
         <Text style={styles.titleText}>Dia<Text style={{ color: '#94C9FF' }}>ry</Text></Text>
-        <ScrollView>
+        <ScrollView style={{height: '50%'}}>
           <View style={styles.body}>
             {diartNote.map((item, key) => (
               displayList(item, key)
@@ -72,6 +82,7 @@ export default function Diary_Page({route}) {
         </TouchableOpacity>
         </View>
       </View> 
+      )}
         <Nav_Bottom iconName="diary" user_Name = {user_Name} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
       </View>
     );
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
 
   body: {
     width: '100%',
-    height: '90%',
+    height: '100%',
     alignSelf: 'center',
     justifyContent: 'center',
   },
@@ -120,7 +131,8 @@ const styles = StyleSheet.create({
     }, 
     shadowOpacity: 0.05, 
     shadowRadius: 1,
-    marginTop: 20,
+    marginTop: 5,
+    marginBottom: 20,
   },
     
   itemDate: {

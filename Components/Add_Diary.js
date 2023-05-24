@@ -32,7 +32,7 @@ export default function Add_Diary({route}) {
         if(addNoteRes.data === 'Done') {       
             Alert.alert(
             'Successful...',
-            'Your successfully added a new Inhaler',
+            'Your successfully added a new Diary Content',
             [
               {text: 'OK', onPress:() => navigation.navigate('Diary_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })},
             ],

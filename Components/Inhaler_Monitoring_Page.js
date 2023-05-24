@@ -1,7 +1,7 @@
 //onPress={() => navigation.navigate('Inhaler_Details_View', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, item: item })}>
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, Text, TextInput, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, TextInput, View, Image, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,30 +14,58 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function Inhaler({route}) {
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(true);
     const { user_Name, Prof_Img, userID, serverIP } = route.params;
     const [inhalerDetails, setInhalerDetails] = useState([]);
-    useEffect(() => {
-        async function reloadInhalerData() {
-        try {
-            const inhalerUpdateDetails = await axios.post(`${serverIP}/inhaler_info_display`, { userID });
-            setInhalerDetails(inhalerUpdateDetails.data);
-            console.log(inhalerUpdateDetails.data);
-        }
-        catch(error) {
-            console.log(error);
-            console.log("Error From get Data")
-        }
+    async function reloadInhalerData() {
+      try {
+          const inhalerUpdateDetails = await axios.post(`${serverIP}/inhaler_info_display`, { userID });
+          setInhalerDetails(inhalerUpdateDetails.data);
+          console.log(inhalerUpdateDetails.data);
+      }
+      catch(error) {
+          console.log(error);
+          console.log("Error From get Data")
+      }
+  }
+    useEffect(() => { 
+      const unsubscribe = navigation.addListener('focus', () => {
+        setIsLoading(true);
+        reloadInhalerData();
+      });
+      return unsubscribe;
+    }, [navigation]);
+
+
+    function handleLongPress(item){
+      console.log(item, "*******************");
+      Alert.alert(
+        'Delete Inhaler',
+        'Press \'Delete\' to delete this Inhaler.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Delete',
+            onPress: () => {handleDelete(item);},
+          },
+        ],
+        { cancelable: false }
+      );
     }
-    reloadInhalerData();
-    }, []);
 
-
+    async function handleDelete(item) {
+      let inhaler_ID = item.Inhaler_ID;
+      const inhalerDeleteRes = await axios.post(`${serverIP}/delete_Inhaler`, { userID, inhaler_ID });
+      if(inhalerDeleteRes){
+        reloadInhalerData();
+      }
+    }
 
     function inhalerDetailsView() {
         return (
           <ScrollView style={styles.scrollView} >
             {inhalerDetails.map((item, index) => (
-              <View key={index} style={styles.details_Cont}>
+              <TouchableOpacity key={index} style={styles.details_Cont} onLongPress={() => handleLongPress(item)} >
                 <Image
                   source={require("./img_and_icon/in_icon.png")}
                   style={{ height: 40, width: 40, alignSelf: 'center' }}
@@ -63,7 +91,7 @@ export default function Inhaler({route}) {
                 >
                   <AntDesign name="rightcircle" size={20} color="#03076F" />
                 </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         )
@@ -93,7 +121,7 @@ export default function Inhaler({route}) {
                 <Text style={styles.titleText}> Inhaler<Text style={{ color: '#94C9FF' }}> Information </Text></Text>
                 </View>
                 <View style={{ flex: 0.55, padding: 20 }}>
-                {inhalerDetails.length === 0 ? nothingView() : inhalerDetailsView()}
+                {inhalerDetails.length === 0 || !isLoading ? nothingView() : inhalerDetailsView()}
                 </View>
             </View>
                         
@@ -198,7 +226,8 @@ const styles = StyleSheet.create({
         color: '#03076F',
         fontSize: 28,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: 10,
     },
 
     plusIcon: {

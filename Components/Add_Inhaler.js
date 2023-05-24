@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert} from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert, ScrollView} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { RadioButton } from 'react-native-paper';
 import TextInputNew from './Coust_Text_Input';
@@ -87,10 +87,12 @@ export default function AddInhaler({route}) {
             </View>
             </View>
             
-            
-
+        
             <Text style={styles.titleText}>Add<Text style={styles.highlightedText}> Inhaler</Text></Text>
 
+
+         <ScrollView style={{width: '100%'}}>  
+         <View style={{flex: 1, alignItems: 'center', marginTop: 20}}> 
             <TextInputNew label='Inhaler Name' value={Inhaler_Name} onChangeText={setInhalerName} secure={false}/>
             <TextInputNew label='Number of Puffs' value={Num_of_Puffs} onChangeText={setnumOfPuffs} secure={false}/>
             <TextInputNew label='Puffs per Day' value={Puffs_Per_Day} onChangeText={setpuffsDay} secure={false}/>
@@ -139,6 +141,8 @@ export default function AddInhaler({route}) {
             onPress={() => {addInhalerByUserID()}}>
                 <Text style={styles.buttonText}>Add</Text>
             </TouchableOpacity>
+            </View>
+            </ScrollView>
         </View>
     );
 };
@@ -146,8 +150,6 @@ export default function AddInhaler({route}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: '#FFFFFF',
     },
     dateCont: {
@@ -163,8 +165,8 @@ const styles = StyleSheet.create({
     },
 
     header: {
+        marginTop: 100,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
         width: '100%',
         paddingHorizontal: 20,
       },
@@ -185,15 +187,13 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         marginBottom: 20,
-        justifyContent: "center",
-        alignSelf: "center",
+        alignSelf: 'center'
     },
     titleText: {
         color: '#03076F',
         fontSize: 28,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 30,
     },
     highlightedText: {
         color: '#94C9FF',
@@ -235,6 +235,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 1.84,
         elevation: 3,
+        marginBottom: 40,
+        width: 150,
     },
     buttonText: {
         color: '#fff',

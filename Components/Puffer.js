@@ -3,6 +3,7 @@ import { Image, FlatList, View, StatusBar, Dimensions, StyleSheet, Text, Animate
 import { LinearProgress } from '@rneui/base';
 import { Entypo } from '@expo/vector-icons';
 import axios from 'axios';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 
 const {width, height} = Dimensions.get('screen');
@@ -14,7 +15,8 @@ const itemHeight = height * .5;
 
 export default function Puffer({serverIP, userID}) {
     const scrollX = React.useRef(new Animated.Value(0)).current;
-
+    const [isLoading, setIsLoading] = useState(true);
+    const navigation = useNavigation();
     const [puffDetails, setPuffDetails] = useState([]);
 
     async function getInhalerDetails() {
@@ -39,15 +41,21 @@ export default function Puffer({serverIP, userID}) {
         catch(err) {
             console.log(err,'\nError from getInhalerDetails call-----------------')
         }   
+        setIsLoading(false);
     }
 
     useEffect(() => {
-        getInhalerDetails();
-    }, []);
+        const unsubscribe = navigation.addListener('focus', () => {
+            setIsLoading(true);
+            getInhalerDetails();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
 
     let tempCount = 0;
     
+
     const remove = async (item) => {
         const Inhaler_ID = item.Inhaler_ID;
         try{
@@ -84,7 +92,7 @@ export default function Puffer({serverIP, userID}) {
             else {
                 Alert.alert(
                     'Daily Puffer Limit',
-                    'Please can not add more then your daily puffer limit. \nPlease check you daily puffer limit',
+                    'You can not add more then your daily puffer limit. \nPlease check you daily puffer limit',
                     [
                     {text: 'Done'},
                     ],
@@ -101,6 +109,9 @@ export default function Puffer({serverIP, userID}) {
 
     return(
         <View style={styles.container}>
+         {isLoading ? (
+        <Text style={{flex: 1}}>Loading...</Text>
+      ) : (
                 <View style={styles.flatList}>
                     <Animated.FlatList
                     data = {puffDetails}
@@ -168,7 +179,7 @@ export default function Puffer({serverIP, userID}) {
                             </View>
 
 							<View style={styles.addRemove}>
-                            <TouchableOpacity onPress={() => remove(item)} disabled={tempCount === 0 || item.puffUsed === 0} style={styles.rm}>
+                            <TouchableOpacity onPress={() => remove(item)} style={styles.rm}>
                             <Entypo name="minus" size={35} color={tempCount === 0 || item.puffUsed === 0 ? '#92C7FE' : '#000874'} />
                             </TouchableOpacity>
 
@@ -176,7 +187,7 @@ export default function Puffer({serverIP, userID}) {
 								<View style={{alignSelf: 'center'}}>
 									<Text style={styles.puffNum}>{item.Num_of_Puffs_Taken}</Text>
 								</View>
-								<TouchableOpacity onPress={() => add(item)} style={styles.rm}>
+								<TouchableOpacity onPress={() => add(item)} style={styles.rm} disabled={item.Inhaler_ID === 1 }>
                                 <Entypo name="plus" size={30} color="#000874" />
 								</TouchableOpacity>
 							</View>
@@ -184,6 +195,7 @@ export default function Puffer({serverIP, userID}) {
 					)}} />
 					
                 </View>
+                )}
         </View>
     );
 }
@@ -280,9 +292,10 @@ const styles = StyleSheet.create({
 
     puffers: 
     {
-        fontSize: 35,
+        fontSize: 30,
         fontWeight: 'bold',
         padding: 30,
+        color: '#000874',
     },
 
     addRemove: 

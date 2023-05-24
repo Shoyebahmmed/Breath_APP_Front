@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Asthma",
+    "name": "Breath",
     "slug": "Asthma",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./Components/img_and_icon/app_icon.png",
+    "icon": "./assets/breath_icon_2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./Components/img_and_icon/app_icon.png",
@@ -22,14 +22,19 @@
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
       ],
-      
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+      "adaptiveIcon": { 
+        "foregroundImage": "./assets/breath_icon_2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.shoyebahmmed.Asthma"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "05a6e4fb-564a-441d-b851-a7fd7d238c7e"
+      }
     }
   }
 }

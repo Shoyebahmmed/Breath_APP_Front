@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Nav_Bottom from './Nav_Bottom';
 import Header from './Header';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 export default function Profile_Page ({route}) {
@@ -14,6 +14,8 @@ export default function Profile_Page ({route}) {
     const [isLoading, setIsLoading] = useState(true);
     const [userData, setData] = useState([]);
     const [asthamaTriggers, setAsthamaTriggers] = useState([]);
+    const [tempUserName, setTempUserName] = useState();
+    const [tempDOB, setTempDOB] = useState();
     
   
     async function getAllDetails() {
@@ -23,6 +25,9 @@ export default function Profile_Page ({route}) {
       if( serverCallResult.data.length > 0) {
         setData(serverCallResult.data);
         console.log(serverCallResult.data);
+        setTempUserName(serverCallResult.data[0].User_Name);
+        setTempDOB(serverCallResult.data[0].DOB);
+        console.log("************************************** _______________ ", serverCallResult.data[0].User_Name);
       }
       else{
         setData([{  
@@ -52,29 +57,36 @@ export default function Profile_Page ({route}) {
     }
 
     useEffect(() => {
-      getAllDetails();
-    }, [])
+      const unsubscribe = navigation.addListener('focus', () => {
+        setIsLoading(true);
+        getAllDetails();
+      });
+      return unsubscribe;
+    }, [navigation])
 
   
     return (
+
       <View style={styles.container}>
-        <Header user_Name = {user_Name} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
-        {isLoading ? (
-          <Text>Loading...</Text>
-        ) : (
+            {isLoading ? (
+        <Text style={{flex: 1}}>Loading...</Text>
+      ) : (
+        <View style={styles.container}>
+        <Header user_Name = {tempUserName} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
+
         <ScrollView style={{flex:1}}>
           <View style={styles.profImgContainer}>
             <Image source={require('./img_and_icon/profile_Img.png')} style={styles.profImage} />
           </View>
-          <Text style={styles.username}>{user_Name}</Text>
+          <Text style={styles.username}>{tempUserName}</Text>
           <View style={styles.button}>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() =>navigation.navigate('Edit_Profile_Page', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() =>navigation.navigate('Edit_Profile_Page', { user_Name: tempUserName, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })}>
                 <Text style={styles.buttonText}>Edit Profile</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
             style={[styles.buttonStyle, {marginLeft: 30}]}
-            onPress={() =>navigation.navigate('Change_Password', { user_Name: user_Name, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })}>
+            onPress={() =>navigation.navigate('Change_Password', { user_Name: tempUserName, Prof_Img: Prof_Img, userID: userID, serverIP: serverIP })}>
                 <Text style={styles.buttonText}>Change Password</Text>
             </TouchableOpacity>
           </View>        
@@ -83,7 +95,7 @@ export default function Profile_Page ({route}) {
         <View style={{ marginLeft: '10%', marginTop: 30, flex: 1}}>
           <View style={styles.UserDetailsBox}>
           <MaterialCommunityIcons name="calendar" size={25} color="#000874" />
-              <Text style={styles.UserDetailsText}>{userData[0].DOB}</Text>
+              <Text style={styles.UserDetailsText}>{tempDOB}</Text>
           </View>
           <View style={styles.UserDetailsBox}>
           <MaterialCommunityIcons name="email" size={25} color="#000874" />
@@ -127,9 +139,12 @@ export default function Profile_Page ({route}) {
           </View> 
           </ScrollView>
 
-        )}
-          <Nav_Bottom iconName="Profile"  user_Name = {user_Name} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
+
+          <Nav_Bottom iconName="Profile"  user_Name = {tempUserName} Prof_Img = {Prof_Img} userID = {userID} serverIP = {serverIP}/>
+          </View>
+          )}
       </View>
+
     );
   };
 
